@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+       
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+        *{
+            font-family: poppins;
+             margin: 8px 0px 5px;
+        }
+        h3{
+            font-family: Cinzel;
+            font-weight: 900;
+        }
+        p{
+            font-size: 13px;
+            font-weight: 300;
+        }
+        a{
+            background-color: rgb(75, 75, 202);
+            padding: 6px 10px;
+            font-size: 12px;
+            color: white;
+            margin-top: 50px;
+        }
+        .container{
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        #col{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 30px;
+        }
+        .col{
+            box-shadow: 0px 8px 24px rgb(232, 232, 232);
+        }
+        img{
+            width: 100%;
+        }
+        .body__text{
+            padding: 5px 15px 20px 15px;
+        }
+        @media screen and (max-width: 768px) {
+            #col{
+            grid-template-columns: 1fr 1fr;
+            column-gap: 10px;
+            }
+        }
+        @media screen and (max-width: 420px) {
+            #col{
+            grid-template-columns: 1fr;
+            column-gap: 10px;
+            margin: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="container">
+        <div class="row" id="col">
+
+        </div>
+    </section>
+
+
+
+    <script>
+        let getCol = document.getElementById('col');
+        let fetchRes = fetch('https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=53cc8b83e8714e01b843c35b68a27770');
+        fetchRes.then(res =>
+            res.json()).then(d => {
+                //console.log(d.data[99].states);
+                const newsdata = d.articles
+                console.log(newsdata);
+
+
+                getNewsFun(newsdata);
+
+            })
+
+            function getNewsFun(newsdata){
+                //getCol.innerHTML = `<div class="col"> </div>`
+                console.log(newsdata);
+                newsdata.forEach(element => {
+                console.log(element.author);
+                getCol.innerHTML += 
+                
+                    `<div class="col"> 
+                        <div class="news__body">
+                            <img src="${element.urlToImage}" />
+                                <div class="body__text">
+                                    <h3> ${element.title} </h3>
+                                    <h6> ${element.author} </h6>
+                                    <p> ${element.description} </p>
+                                    <a href="${element.url}">Read more</a>
+                                </div>                   
+                        </div>
+                    </div>`
+
+                    
+                });
+
+            }
+
+    </script>
+
+
+</body>
+
+</html>
